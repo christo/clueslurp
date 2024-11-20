@@ -5,14 +5,23 @@ module Main where
 import System.IO (withFile, IOMode(AppendMode), Handle, isEOF, hPutStrLn, stdout, stderr, hSetBuffering, BufferMode(..))
 import Text.Regex.TDFA ((=~))
 import Control.Monad (unless, when)
+import System.Environment (getArgs)
 
 
 main :: IO ()
 main = do
+  args <- getArgs
+  case args of
+    [clueFile] -> streamIt clueFile
+    _ -> do
+      putStrLn "Usage clueslurp <cluefile>"
+      putStrLn "  <cluefile>: file containing clues to be read and updated"
+
+streamIt :: FilePath -> IO ()
+streamIt clueFile = do
   -- clues consume a whole line and look like this:
   -- DSFSSF.FOO=292@234328|097a2f97afaf97af7af9af7af9af7a9
   let clueRegex = "^[A-Z]+\\.[A-Z]+=\\d@\\d+|[0-9a-f]{31}$"
-  let clueFile = "cbvclues.txt"
 
   hSetBuffering stdout NoBuffering
   hSetBuffering stderr NoBuffering
