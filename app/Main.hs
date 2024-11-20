@@ -2,7 +2,7 @@
 
 module Main where
 
-import System.IO (withFile, IOMode(AppendMode), Handle, isEOF, hPutStrLn)
+import System.IO (withFile, IOMode(AppendMode), Handle, isEOF, hPutStrLn, stdout, stderr, hSetBuffering, BufferMode(..))
 import Text.Regex.TDFA ((=~))
 import Control.Monad (unless, when)
 
@@ -14,14 +14,21 @@ main = do
   let clueRegex = "^[A-Z]+\\.[A-Z]+=\\d@\\d+|[0-9a-f]{31}$"
   let clueFile = "cbvclues.txt"
 
-  withFile clueFile AppendMode $ \handle -> do
-    processLines clueRegex handle
+  hSetBuffering stdout NoBuffering
+  hSetBuffering stderr NoBuffering
 
-processLines :: String -> Handle -> IO ()
-processLines regex handle = do
+  withFile clueFile AppendMode $ \handle -> do
+    processInput clueRegex handle ""
+
+processInput :: String -> Handle -> String -> IO ()
+processInput regex handle buffer = do
   eof <- isEOF
   unless eof $ do
-    line <- getLine
-    putStrLn line
-    when (line =~ regex) $ hPutStrLn handle line
-    processLines regex handle
+    char <- getChar
+    putChar char -- echo
+    let newBuffer = buffer ++ [char]
+    if char == '\n'
+      then do
+        when (newBuffer =~ regex) $ hPutStrLn handle newBuffer
+        processInput regex handle "" -- reset
+      else processInput regex handle newBuffer -- continue
