@@ -45,7 +45,7 @@ author:             Chris Mountford
 maintainer:         chris.mountford@gmail.com
 
 -- A copyright notice.
--- copyright:
+copyright:          Chris Mountford 2024
 category:           Text
 build-type:         Simple
 
