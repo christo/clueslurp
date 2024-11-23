@@ -35,7 +35,8 @@ A few implementation ideas:
 * A config file for this filter which can drive the interaction,
   enabling programmatic automation.
 * An API which can be used in `GHCi`.
-* Use socat or something clever Modify the filter to provide a server socket over which programmatic interaction can
+* Use socat or something clever Modify the filter to provide a server socket over which programmatic
+  interaction can
   be tapped by possibly multiple programs independently
 
 ### Config Command Language
@@ -45,7 +46,7 @@ following syntax.
 
 * lines prefixed with `#` and blank lines are ignored in processing
 * don't make parsing harder by accidentally making white space significant
-* if there is something similar that already exists us that instead, 
+* if there is something similar that already exists us that instead,
   possibly a mini language that is more general but which could be easily
   adapted to the character-oriented filter situation?
 
@@ -106,5 +107,10 @@ Other commands could be:
 * `x` close stream, exit
 * `d filename dest` download filename to host dest using `umix` facility
 * `u filename dest` upload host filename to `umix` dest using `umix` facility
+* Macro facility?
+* parenthetic command grouping?
 
 Could have predefined variables like current user, command history, runtime etc.
+
+Can some hacked up script and `socat` cover this sort of feature set without all this implementation
+work?
