@@ -88,7 +88,7 @@ Indentation is for human only.:
 
 ```console
 # open paren groups trigger followed by sequence of actions
-# regex capgure group $0 is whole match
+# regex capture group $0 is whole match
 (
 # look for publications
 / <publication_regex>
